@@ -35,7 +35,7 @@ pipeline {
                 scannerHome= tool 'sonar4.7'
             }
             steps {
-                withSonarQubeEnv('sonar') { // If you have configured more than one global server connection, you can specify its name
+                withSonarQubeEnv('sonar') { 
                     sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
                     -Dsonar.projectName=vpro-repo \
                     -Dsonar.projectVersion=1.0 \
@@ -51,8 +51,6 @@ pipeline {
         stage("Quality Gate") {
             steps {
                 timeout(time: 1, unit: 'MINUTES') {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                    // true = set pipeline to UNSTABLE, false = don't
                     waitForQualityGate abortPipeline: true
                 }
             }
